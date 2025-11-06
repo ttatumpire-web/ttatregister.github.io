@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TTAT Umpire Directory • Result</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#001B3A;--panel:#0d2c5d;--text:#eef4ff;--muted:#a9b8d9;--gold:#ffd700;--line:#1a2f6a;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Noto Sans Thai',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:12px 16px;border-bottom:3px solid var(--gold);background:#002D6A;position:sticky;top:0;z-index:5}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 8px}
+    .topbar{display:flex;align-items:center;gap:12px}
+    #logo{height:42px;width:auto;border-radius:6px;background:#0b1a3f;padding:4px;border:1px solid var(--line)}
+    h1{margin:0;font-size:clamp(18px,3.4vw,26px)}
+    .subtitle{color:#c8d6f4;font-size:13px;margin-top:2px}
+    .toolbar{display:grid;grid-template-columns:1.2fr repeat(4,1fr);gap:8px;margin:14px 0}
+    @media (max-width:900px){.toolbar{grid-template-columns:1fr 1fr;grid-auto-rows:minmax(42px,auto)}}
+    input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0b1a3f;color:var(--text);outline:none}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}
+    th{color:#ffecb0;cursor:pointer}
+    .badge{padding:2px 8px;border-radius:6px;border:1px solid var(--line)}
+    .WB{background:#0e234f;color:#bcd3ff}
+    .BB{background:#0f3040;color:#9ff2d6;border-color:#1f6d59}
+    .GB{background:#231635;color:#f1caff;border-color:#513069}
+    .hidden{display:none!important}
+    footer{color:#b8c6e8;border-top:1px solid var(--line);padding:12px 0;margin-top:12px;text-align:center}
+    .meta{color:#b8c6e8;font-size:12px;margin-top:8px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <img id="logo" alt="TTAT Logo" src="https://raw.githubusercontent.com/ttatregister/ttatregister.github.io/main/ttat-logo.png"/>
+      <div>
+        <h1 id="title">รายชื่อผู้ตัดสินสมาคม • TTAT Umpire Directory</h1>
+        <div class="subtitle" id="subtitle">ค้นหา/กรองได้ • TH/EN • อัปเดตล่าสุด 2025-11-06 08:18</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button id="btnLang" class="btn switch" style="background:linear-gradient(90deg,var(--gold),#ffd767);color:#231c00;border:none;border-radius:10px;padding:8px 10px;font-weight:700">EN</button>
+      </div>
+    </div>
+    <div class="toolbar" role="region" aria-label="Filters">
+      <input id="q" type="search" placeholder="ค้นหาชื่อ ประเทศ ระดับ สถานะ…"/>
+      <select id="fBadge"><option value="">ระดับ: ทั้งหมด</option><option>WB</option><option>BB</option><option>GB</option></select>
+      <select id="fRole"><option value="">บทบาท: ทั้งหมด</option><option>Umpire</option><option>Referee</option><option>Deputy Referee</option><option>Assistant Referee</option></select>
+      <select id="fStatus"><option value="">สถานะ: ทั้งหมด</option><option>Active</option><option>Inactive</option></select>
+      <select id="fCountry"><option value="">ประเทศ: ทั้งหมด</option></select>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <table id="grid">
+    <thead>
+      <tr>
+        <th data-key="name" id="thName">ชื่อ</th>
+        <th data-key="country" id="thCountry">ประเทศ</th>
+        <th data-key="badge" id="thBadge">ระดับ</th>
+        <th data-key="role" id="thRole">บทบาท</th>
+        <th data-key="workStatus" id="thStatus">สถานะ</th>
+        <th data-key="notes" id="thNotes">หมายเหตุ</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="meta">Total: <span id="total"></span></div>
+</main>
+<footer>© <span id="yy"></span> TTAT</footer>
+
+<script>
+  const DATA = [{"name":"ASAWAJINDA Siwanart","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"BANJONG Siriwan","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"BOONYAKITANONT Ruangsak","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"CHANOKNAT Rattanachaloemwong","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"CHANPHET Theerapong","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"CHOTCHUANG Praphan","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"CHUCHOKET Kwanchai","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"CHUELEK Poomnart","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"GOLAGA Thiti","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"HONGWISUTHIKUL Pongsak","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"INTHIYA Manus","country":"THAILAND","badge":"(BBP)","role":"Umpire","workStatus":"Active","notes":""},{"name":"INTIYA Anchalee","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"JANJEAM Sukkhawit","country":"THAILAND","badge":"(BBP)","role":"Umpire","workStatus":"Active","notes":""},{"name":"JIRAWONGKAJORN Nawarut","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"JIRAWONGKAJORN Piroj","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KANAPIBAL Somsak","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KANOKUDOM Montha","country":"THAILAND","badge":"(BBP)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KARUEHABODEE Kamphol","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KHUMBANGLEE Theerawish","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KONGMEECHON pattaya","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"KUMMSARN Songphol","country":"THAILAND","badge":"(BB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"LEESAKUN Panatcha","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"LIMLUJIVAT Somchai","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"LOY-On Surapol","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"NGAMPOJANAWONG Lakyim","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"ORANVIKAIKITKUL Suchan","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"PAE-SAWANG Pairat","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"PRAMITTASIL sutip","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"RATMANEE Thanawut","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"RUANGVIRIYACHAI Pairuch","country":"THAILAND","badge":"(GB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SAEKUAN Maneerat","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SAEKUAN Nipon","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SAKOONSIM Pichai","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SANGSRISANG Nattida","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SARIVONG Saranya","country":"THAILAND","badge":"(BB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SATHUM wirath","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SOISON Darin","country":"THAILAND","badge":"(BBP)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SOM-NUAKE Spson","country":"THAILAND","badge":"(BB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SRIBOONRUANG surang","country":"THAILAND","badge":"(BB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SRIBORAN Narupon","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SUBYAI Tanongsak","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"SUWANKASEM Paisan","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"TANCHAROEN Wilailak","country":"THAILAND","badge":"(BBP)","role":"Umpire","workStatus":"Active","notes":""},{"name":"TANWIBOOL Jaksana","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"TEERASUWANAJUG niyom","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"VARAYANON Chusakul","country":"THAILAND","badge":"(BB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"VONGSAYAN Yowamarn","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"WASUTHEP Dusit","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"WEERASESTAKUL Chakri","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"YENTOOL Shakriya","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""},{"name":"YONGTRAKOON Somyos","country":"THAILAND","badge":"(WB)","role":"Umpire","workStatus":"Active","notes":""}];
+
+  const STR = {
+    th: {title:"รายชื่อผู้ตัดสินสมาคม • TTAT Umpire Directory",sub:"ค้นหา/กรองได้ • TH/EN • อัปเดตล่าสุด 2025-11-06 08:18",ph:"ค้นหาชื่อ ประเทศ ระดับ สถานะ…",badgeAll:"ระดับ: ทั้งหมด",roleAll:"บทบาท: ทั้งหมด",statusAll:"สถานะ: ทั้งหมด",countryAll:"ประเทศ: ทั้งหมด",name:"ชื่อ",country:"ประเทศ",badge:"ระดับ",role:"บทบาท",status:"สถานะ",notes:"หมายเหตุ",langBtn:"EN"},
+    en: {title:"TTAT Umpire Directory",sub:"Search/Filter • TH/EN • Last update 2025-11-06 08:18",ph:"Search name, country, badge, status…",badgeAll:"Badge: All",roleAll:"Role: All",statusAll:"Status: All",countryAll:"Country: All",name:"Name",country:"Country",badge:"Badge",role:"Role",status:"Status",notes:"Notes",langBtn:"TH"}
+  };
+  let LANG = 'th';
+
+  let state = {q:"",badge:"",role:"",status:"",country:"",sortKey:"name",asc:true};
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const norm = s => (s||"").toString().toLowerCase();
+  const cmp = (k,a,b) => String(a[k]||"").localeCompare(String(b[k]||""));
+
+  function applyLang(){
+    const L = STR[LANG];
+    $('#title').textContent = L.title; $('#subtitle').textContent = L.sub;
+    $('#q').placeholder = L.ph;
+    $('#fBadge').options[0].text = L.badgeAll;
+    $('#fRole').options[0].text = L.roleAll;
+    $('#fStatus').options[0].text = L.statusAll;
+    $('#fCountry').options[0].text = L.countryAll;
+    $('#thName').textContent = L.name; $('#thCountry').textContent = L.country; $('#thBadge').textContent = L.badge; $('#thRole').textContent = L.role; $('#thStatus').textContent = L.status; $('#thNotes').textContent = L.notes;
+    $('#btnLang').textContent = L.langBtn;
+  }
+
+  function buildCountries(){
+    const set = new Set(DATA.map(r=>r.country).filter(Boolean));
+    const sel = $('#fCountry');
+    [...sel.options].slice(1).forEach(o=>o.remove());
+    [...set].sort().forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+  }
+
+  function filtered(){
+    const q = norm(state.q);
+    return DATA.filter(r=>{
+      const hay = norm(`${r.name} ${r.country||''} ${r.badge||''} ${r.role||''} ${r.workStatus||''} ${r.notes||''}`);
+      if(q && !hay.includes(q)) return false;
+      if(state.badge && r.badge!==state.badge) return false;
+      if(state.role && r.role!==state.role) return false;
+      if(state.status && r.workStatus!==state.status) return false;
+      if(state.country && r.country!==state.country) return false;
+      return true;
+    }).sort((a,b)=> state.asc ? cmp(state.sortKey,a,b) : -cmp(state.sortKey,a,b));
+  }
+
+  function render(){
+    const rows = filtered();
+    $('#total').textContent = rows.length + " / " + DATA.length;
+    const tb = $('#rows'); tb.innerHTML='';
+    rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.name||''}</td>
+                      <td>${r.country||''}</td>
+                      <td><span class="badge ${r.badge||''}">${r.badge||''}</span></td>
+                      <td>${r.role||''}</td>
+                      <td>${r.workStatus||''}</td>
+                      <td>${r.notes||''}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+
+  function initEvents(){
+    $('#q').addEventListener('input',e=>{state.q=e.target.value;render();});
+    $('#fBadge').addEventListener('change',e=>{state.badge=e.target.value;render();});
+    $('#fRole').addEventListener('change',e=>{state.role=e.target.value;render();});
+    $('#fStatus').addEventListener('change',e=>{state.status=e.target.value;render();});
+    $('#fCountry').addEventListener('change',e=>{state.country=e.target.value;render();});
+    $$('#grid thead th').forEach(th=>{ th.addEventListener('click',()=>{ const key=th.getAttribute('data-key'); if(!key) return; if(state.sortKey===key){state.asc=!state.asc;} else {state.sortKey=key; state.asc=true;} render(); }); });
+    $('#btnLang').addEventListener('click',()=>{ LANG = (LANG==='th')?'en':'th'; applyLang(); });
+  }
+
+  function init(){
+    document.getElementById('yy').textContent=new Date().getFullYear();
+    buildCountries(); applyLang(); initEvents(); render();
+  }
+  init();
+</script>
+</body>
+</html>
